@@ -1,71 +1,115 @@
-﻿# The script of the game goes in this file.
-
-# Declare characters used by this game. The color argument colorizes the
-# name of the character.
-
+# Declare characters
 define george = Character("George", color="#5A9E32")
+default hasPhoto = True
+default hasCard = True
+default hasWallet = True
+define grace = Character("Grace", color="#fde560ff")
+define liam = Character("Liam", color="#2CB1F8")
+
+default g = 0
+default l = 0
+
+# Default values
+default humanity = 100
+default current_visitor = "none"
+default day = 0
+
 
 label start:
 
-    "I ran as soon as I heard the sirens."
+    # "I ran as soon as I heard the sirens."
 
-    #sirens
+    # "Mary!"
 
-    #running
+    # "John!"
 
-    "Mary!" #voiced
+    # "I ran to the driveway and looked down the road for any signs of our car."
 
-    "John!" #voiced
+    # "Nothing."
 
-    "I ran to the driveway and looked down the road for any signs of our car."
+    # "The sirens were still wailing and I knew the bomb would hit at any moment."
 
-    "Nothing."
+    # "Please please let them be ok."
 
-    "The wind started to pick up and I could see the dark funnel growing in the distance."
+    # "I took out my phone and dialed my wife's number."
 
-    "Please please let them be ok."
+    # "Nothing."
 
-    "I took out my phone and dialed my wife's number."
+    # "So I sent a text: \"Please get back safe\"."
 
-    #dial
+    # "My hands started to shake."
 
-    "Nothing."
+    # "\"And whatever happens, just know I love you and John with all my heart.\""
 
-    #text
+    # "I held back tears as I ran to the fallout shelter."
 
-    "So I sent a text: \"Please get back safe\"."
+    # "I left the doors open just in case and started to light the furnace."
 
-    "My hands started to shake."
+    # "The sirens were loud and I knew the bomb would probably hit any second."
 
-    "\"And whatever happens, just know I love you and John with all my heart.\""
+    # "I had no choice but to grab and lock the doors for my own safety."
 
-    "I held back tears as I ran to the storm cellar."
+    # "I checked my phone again."
 
-    "I left the doors open just in case and started to light the furnance."
+    # "Nothing."
 
-    "As time went by the wind got so strong the doors started slamming open and closed."
+    # scene bg main with fade
 
-    #wind
+    # george "I continued to check my phone and every time—"
 
-    "I had no choice but to grab and lock the doors for my own safety."
+    # george "Nothing."
 
-    "I checked my phone again."
+    # george "The stress was overwhelming and I don't know when, but I fell asleep."
 
-    "Nothing."
+    # scene black with fade
 
-    scene bg main
+    # pause 5
 
-    george "I continued to check my phone and everytime"
+    # scene bg main
 
-    george "nothing."
+    # george "I woke up and ran for the doors— that must be Mary and John!"
 
-    george "The stress was overwhelming and I don't know when, but I fell asleep."
+    # scene black
+    # "Hello?"
 
-    scene black
+    george "..."
 
-    pause 3.0
+    george "That's not her."
 
-    
+    jump intro_mom
+
+
+# Inventory system
+label inventory:
+
+    $ items = []
+
+    if hasPhoto:
+        $ items.append("a photo of your family")
+    if hasDrawing:
+        $ items.append("a child's drawing")
+    if hasWallet:
+        $ items.append("your wallet")
+
+    if len(items) > 1:
+        $ combined = ", ".join(items[:-1])
+        $ formatted = f"You have {combined} and {items[-1]}."
+    elif len(items) == 1:
+        $ formatted = f"You have {items[0]}."
+    else:
+        $ formatted = "You don't have any more items to burn."
+
+    "[formatted]"
 
     return
+
+label fire:
+    george "Now I have to let you know. If that furnance goes out we'll be in big trouble."
+    george "I don't intend on anyone dying tonight from the cold so I ask you to search yourself to see if there's anything you can add to keep the fire going."
+    return
+
+label next_day:
+    "next day"
+
+
 
