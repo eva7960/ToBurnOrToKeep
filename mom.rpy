@@ -97,7 +97,7 @@ label fire_mom:
     default burnedPhoto = False
     default burnedBear = False
     default day1Items = 0
-    call fire
+    call furnance
     grace "Oh um.. we don't have much but let's see.."
     grace "The only thing in my purse are some photos..."
     "Grace starts to tear up."
@@ -122,7 +122,7 @@ label fire_mom:
             jump burn_mine
         else:  
             "You already burned that."
-
+    call sleep
        
 label burn_grace_photo:
     $ dayItems += 1
