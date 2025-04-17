@@ -94,6 +94,9 @@ label ask_mom:
                 jump fire_mom
 
 label fire_mom:
+    default burnedPhoto = False
+    default burnedBear = False
+    default day1Items = 0
     grace "Oh um.. we don't have much but let's see.."
     grace "The only thing in my purse are some photos..."
     "Grace starts to tear up."
@@ -104,36 +107,41 @@ label fire_mom:
     grace "... right?"
 
     call inventory
-    $ b_mom = renpy.input("Should I burn Grace's {b}{size=+10}photo{/size}{/b}, Liam's {b}{size=+10}teddy bear{/size}{/b}, or something of {b}{size=+10}mine{/size}{/b}?")
-    if b_mom == "photo":
-        grace "I understand."
-        "Grace sadly stares at the last photos of her family all togehter, making sure to memorize every detail of her husband."
-        "After a few moments and a deep breath, Grace sets the photos into the furnance."
-        "The fire quickly eats up the photos, melting the faces together."
-        $ g -= 2
-        $ humanity -= 5
-    elif b_mom == "teddy bear":
-        "Liam instantly clutches his teddy bear tight against his chest as you reach for it."
+    while day1Items < 2:
+        $ b_mom = renpy.input("Should I burn Grace's {b}{size=+10}photo{/size}{/b}, Liam's {b}{size=+10}teddy bear{/size}{/b}, or something of {b}{size=+10}mine{/size}{/b}?")
+        if b_mom == "photo" and burnedPhoto == False:
+            jump burn_grace_photo
+            "While you appreciate Grace's sacrifice, you realize it won't be enough to keep the fire going the entire night."
+            "You need to burn something else."
+        elif b_mom == "teddy bear" and burnedBear == False:
+            jump burn_teddy
+            "While you appreciate Liam's sacrifice, you realize it won't be enough to keep the fire going the entire night."
+            "You need to burn something else."
+        elif b_mom == "mine":
+            jump burn_mine
+        else:  
+            "You already burned that."
+
+       
+label burn_grace_photo:
+    $ burnedPhoto = True
+    grace "I understand."
+    "Grace sadly stares at the last photos of her family all togehter, making sure to memorize every detail of her husband."
+    "After a few moments and a deep breath, Grace sets the photos into the furnance."
+    "The fire quickly eats up the photos, melting the faces together."
+    $ g -= 2
+    $ humanity -= 5
+
+label burn_teddy:
+    $ burnedBear = True
+    "Liam instantly clutches his teddy bear tight against his chest as you reach for it."
         "You can tell he's upset at the thought of losing his favorite stuffed animal."
         "You reach your hand out towards Liam and after a few minutes Liam slowly hands you his teddy bear."
         "You toss it in the fire, and watch as Liam's tears run down his cheeks."
         $ l -= 4
         $ humanity -= 5
-    elif b_mom == "mine":
-        $ inv_mom = renpy.input("Should I burn my {b}{size=+10}photo{/size}{/b}, John's birthday {b}{size=+10}card{/size}{/b}, or my {b}{size=+10}wallet{/size}{/b}?")
-        if inv_mom == "photo" and hasPhoto:
-            $ hasPhoto = False
-            "You toss the photo of your family into the furnance."
-            "You feel your heart sink as you see Mary and John's face disappear in the flames."
-        elif inv_mom == "card" and hasDrawing:
-            "You look at the birthday card John gave you yesterday."
-            "You think about how this might've been the last one you ever receive from him."
-            "You hold back tears as you set the card in the fire."
-        elif inv_mom == "wallet" and hasWallet:
-            "You take your wallet out of your pocket and pull out a wrinkled five dollar bill."
-            george "I guess I won't be needing this any time soon."
-            "You toss a few small bills into the fire."
-            "The flames quickly engulf the money and you end up donating your entire wallet to the cause."
+
+
 
 
 
