@@ -13,6 +13,7 @@ default l = 0
 default humanity = 100
 default current_visitor = "none"
 default day = 0
+default dayItems = 0
 
 
 label start:
@@ -103,7 +104,7 @@ label inventory:
 
     return
 
-label fire:
+label furnance:
     george "Now I have to let you know. If that furnance goes out we'll be in big trouble."
     george "I don't intend on anyone dying tonight from the cold so I ask you to search yourself to see if there's anything you can add to keep the fire going."
     return
@@ -127,6 +128,8 @@ label burn_mine:
             "You don't have any more stuff to burn."
 
 label next_day:
+    $ day += 1
+    $ dayItems = 0
     "next day"
 
 
