@@ -97,6 +97,7 @@ label fire_mom:
     default burnedPhoto = False
     default burnedBear = False
     default day1Items = 0
+    call fire
     grace "Oh um.. we don't have much but let's see.."
     grace "The only thing in my purse are some photos..."
     "Grace starts to tear up."
@@ -107,7 +108,7 @@ label fire_mom:
     grace "... right?"
 
     call inventory
-    while day1Items < 2:
+    while $ dayItems < 2:
         $ b_mom = renpy.input("Should I burn Grace's {b}{size=+10}photo{/size}{/b}, Liam's {b}{size=+10}teddy bear{/size}{/b}, or something of {b}{size=+10}mine{/size}{/b}?")
         if b_mom == "photo" and burnedPhoto == False:
             jump burn_grace_photo
@@ -124,6 +125,7 @@ label fire_mom:
 
        
 label burn_grace_photo:
+    $ dayItems += 1
     $ burnedPhoto = True
     grace "I understand."
     "Grace sadly stares at the last photos of her family all togehter, making sure to memorize every detail of her husband."
@@ -133,6 +135,7 @@ label burn_grace_photo:
     $ humanity -= 5
 
 label burn_teddy:
+    $ dayItems += 1
     $ burnedBear = True
     "Liam instantly clutches his teddy bear tight against his chest as you reach for it."
         "You can tell he's upset at the thought of losing his favorite stuffed animal."
