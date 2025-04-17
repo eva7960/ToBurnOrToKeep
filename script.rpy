@@ -5,6 +5,7 @@ default hasCard = True
 default hasWallet = True
 define grace = Character("Grace", color="#fde560ff")
 define liam = Character("Liam", color="#2CB1F8")
+define rk = Character("Rk-87")
 
 default g = 0
 default l = 0
