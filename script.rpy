@@ -108,6 +108,24 @@ label fire:
     george "I don't intend on anyone dying tonight from the cold so I ask you to search yourself to see if there's anything you can add to keep the fire going."
     return
 
+label burn_mine:
+     $ inv_mom = renpy.input("Should I burn my {b}{size=+10}photo{/size}{/b}, John's birthday {b}{size=+10}card{/size}{/b}, or my {b}{size=+10}wallet{/size}{/b}?")
+        if inv_mom == "photo" and hasPhoto:
+            $ hasPhoto = False
+            "You toss the photo of your family into the furnance."
+            "You feel your heart sink as you see Mary and John's face disappear in the flames."
+        elif inv_mom == "card" and hasDrawing:
+            "You look at the birthday card John gave you yesterday."
+            "You think about how this might've been the last one you ever receive from him."
+            "You hold back tears as you set the card in the fire."
+        elif inv_mom == "wallet" and hasWallet:
+            "You take your wallet out of your pocket and pull out a wrinkled five dollar bill."
+            george "I guess I won't be needing this any time soon."
+            "You toss a few small bills into the fire."
+            "The flames quickly engulf the money and you end up donating your entire wallet to the cause."
+        else: 
+            "You don't have any more stuff to burn."
+
 label next_day:
     "next day"
 
