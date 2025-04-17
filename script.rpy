@@ -127,10 +127,14 @@ label burn_mine:
         else: 
             "You don't have any more stuff to burn."
 
+label sleep:
+    "After taking care of the fire we went over to the beds and laid down for the night knowing that we had made it just one more day."
+    jump next_day
+
 label next_day:
     $ day += 1
     $ dayItems = 0
-    "next day"
+    jump choose visitor
 
 
 
