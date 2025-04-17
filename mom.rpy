@@ -16,7 +16,7 @@
             "\"Please we mean no harm.\""
             menu:
                 "Who are you?":
-                    "\"My son and I were just passing through. It's getting rather late and we're looking for a place to spend the night.\""sssssssssssssssssssssssssssss
+                    "\"My son and I were just passing through. It's getting rather late and we're looking for a place to spend the night.\""
                     menu:
                         "Let them in":
                             jump ask_mom
@@ -24,7 +24,7 @@
                             george "..."
                             "\"...\""
                             "\".... sorry for disturbing you.\""
-                            $ huamnity -= 10
+                            $ humanity -= 10
                             jump next_day
                 "Stay silent":
                     george "..."
