@@ -129,11 +129,36 @@ label burn_mine:
 
 label sleep:
     "After taking care of the fire we went over to the beds and laid down for the night knowing that we had made it just one more day."
+    if $ burnedBear == True:
+        "You wake up in the middle of the night to the sound of Liam crying." 
+        "You shut your eyes trying to tell yourself that it had to be done."
     jump next_day
 
 label next_day:
     $ day += 1
     $ dayItems = 0
+    if current_visitor == "mom":
+        "You wake up to find Grace tying Liam's shoes."
+        grace "Good morning George."
+        george "Morning, are you both headed out already?"
+        grace "Yes, we appreciate everything you've done for us but we've got to keep moving. Our plan is to keep walking to the next town in hopes of finding anything."
+        george "I see. Well it was nice having you folks. Goodbye Liam."
+        if $ burnedTeddy == True:
+            "Liam refuses to look at you."
+            if $humanity > 30:
+                george "I'm sorry about what happened to your bear."
+                if $ hasWallet == True:
+                    "You take thirty dollars out of your wallet."
+                    george "Here, once you get to town take this and your next toy is on me ok?"
+                    "Liam smiles."
+                    liam "Mom look, I'm rich!"
+                    $ l += 2
+                    grace "Thank you George, that's the first time I've seen Liam smile in a while."
+                    $ g += 1
+        liam "Goodbye sir."
+        grace "Goodbye George, I wish you well."
+        george "Same goes for you, safe travels."
+        "Grace and Liam put their gas masks back on and head out."
     jump choose visitor
 
 
