@@ -1,14 +1,9 @@
 # Declare characters
 define george = Character("George", color="#5A9E32")
 default hasPhoto = True
-default hasCard = True
+default hasDrawing = True
 default hasWallet = True
-define grace = Character("Grace", color="#fde560ff")
-define liam = Character("Liam", color="#2CB1F8")
-define rk = Character("Rk-87")
-
-default g = 0
-default l = 0
+default hasNothing = False
 
 # Default values
 default humanity = 100
@@ -18,6 +13,8 @@ default dayItems = 0
 
 
 label start:
+
+
 
     # "I ran as soon as I heard the sirens."
 
@@ -78,12 +75,11 @@ label start:
 
     george "That's not her."
 
-    jump intro_mom
+    jump fire_robot
 
 
 # Inventory system
 label inventory:
-
     $ items = []
 
     if hasPhoto:
@@ -95,72 +91,59 @@ label inventory:
 
     if len(items) > 1:
         $ combined = ", ".join(items[:-1])
-        $ formatted = f"You have {combined} and {items[-1]}."
+        $ formatted = f"In your own pockets you have {combined}, and {items[-1]}."
     elif len(items) == 1:
-        $ formatted = f"You have {items[0]}."
+        $ formatted = f"In your own pockets you have {items[0]}."
     else:
         $ formatted = "You don't have any more items to burn."
 
-    "[formatted]"
+    george "[formatted]"
 
-    return
-
-label furnance:
-    george "Now I have to let you know. If that furnance goes out we'll be in big trouble."
-    george "I don't intend on anyone dying tonight from the cold so I ask you to search yourself to see if there's anything you can add to keep the fire going."
     return
 
 label burn_mine:
-     $ inv_mom = renpy.input("Should I burn my {b}{size=+10}photo{/size}{/b}, John's birthday {b}{size=+10}card{/size}{/b}, or my {b}{size=+10}wallet{/size}{/b}?")
-        if inv_mom == "photo" and hasPhoto:
-            $ hasPhoto = False
-            "You toss the photo of your family into the furnance."
-            "You feel your heart sink as you see Mary and John's face disappear in the flames."
-        elif inv_mom == "card" and hasDrawing:
-            "You look at the birthday card John gave you yesterday."
-            "You think about how this might've been the last one you ever receive from him."
-            "You hold back tears as you set the card in the fire."
-        elif inv_mom == "wallet" and hasWallet:
-            "You take your wallet out of your pocket and pull out a wrinkled five dollar bill."
-            george "I guess I won't be needing this any time soon."
-            "You toss a few small bills into the fire."
-            "The flames quickly engulf the money and you end up donating your entire wallet to the cause."
-        else: 
-            "You don't have any more stuff to burn."
+    $ inv_mom = renpy.input("Should I burn my {b}{size=+10}photo{/size}{/b}, John's birthday {b}{size=+10}card{/size}{/b}, or my {b}{size=+10}wallet{/size}{/b}?\n")
+    if not (hasPhoto or hasDrawing or hasWallet):
+        "You have nothing left to burn."
+        $ hasNothing = True
+    if inv_mom == "photo" and hasPhoto:
+        $ dayItems += 1
+        $ hasPhoto = False
+        "You toss the photo of you and your wife into the furnance."
+        "You feel your heart sink as you see your faces disappear in the flames."
+    elif inv_mom == "card" and hasDrawing:
+        $ dayItems += 1
+        $ hasDrawing = False
+        "You look at the birthday card your grandson gave you yesterday."
+        "You think about how this might've been the last one you ever receive from him."
+        "You hold back tears as you set the card in the fire."
+    elif inv_mom == "wallet" and hasWallet:
+        $ dayItems += 1
+        $ hasWallet = False
+        "You take your wallet out of your pocket and pull out a wrinkled five dollar bill."
+        george "I guess I won't be needing this any time soon."
+        "You toss a few small bills into the fire."
+        "The flames quickly engulf the money and you end up donating your entire wallet to the cause."
+    else: 
+        "You already burned that."
+    return
 
-label sleep:
-    "After taking care of the fire we went over to the beds and laid down for the night knowing that we had made it just one more day."
-    if $ burnedBear == True:
-        "You wake up in the middle of the night to the sound of Liam crying." 
-        "You shut your eyes trying to tell yourself that it had to be done."
-    jump next_day
+label choose_visitor:
+    "Choose visitor."
 
 label next_day:
+    if current_visitor == "none":
+        "You decide to not let them in and sit safely in your shelter."
+        #fade
+        "As time passes, you start to grow cold."
+        "You look over and notice the fire is dying."
+        "You need to add more fuel to keep it alive or else you may be the next one to die."
+        jump burn_mine
+        if hasNothing:
+            jump end
     $ day += 1
     $ dayItems = 0
-    if current_visitor == "mom":
-        "You wake up to find Grace tying Liam's shoes."
-        grace "Good morning George."
-        george "Morning, are you both headed out already?"
-        grace "Yes, we appreciate everything you've done for us but we've got to keep moving. Our plan is to keep walking to the next town in hopes of finding anything."
-        george "I see. Well it was nice having you folks. Goodbye Liam."
-        if $ burnedTeddy == True:
-            "Liam refuses to look at you."
-            if $humanity > 30:
-                george "I'm sorry about what happened to your bear."
-                if $ hasWallet == True:
-                    "You take thirty dollars out of your wallet."
-                    george "Here, once you get to town take this and your next toy is on me ok?"
-                    "Liam smiles."
-                    liam "Mom look, I'm rich!"
-                    $ l += 2
-                    grace "Thank you George, that's the first time I've seen Liam smile in a while."
-                    $ g += 1
-        liam "Goodbye sir."
-        grace "Goodbye George, I wish you well."
-        george "Same goes for you, safe travels."
-        "Grace and Liam put their gas masks back on and head out."
-    jump choose visitor
+    $ current_visitor = "none"
 
-
-
+label end:
+    "You've reached the end."
