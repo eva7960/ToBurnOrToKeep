@@ -1,6 +1,7 @@
 label intro_robot:
     default name = "TR-87"
     $ current_visitor = "robot"
+    default isTR = True
     "You hear some clunks against the door."
     "\"Scanning.\""
     menu:
@@ -36,40 +37,112 @@ label intro_robot:
 
 label ask_robot:
     $ r += 1
+    $ humanity += 10
     "You open the door to see a metal robot standing in the doorway with a folder in its hand."
+    "It's missing an arm."
+    "The robot steps inside and you close the door behind it."
+
     george "...can I help you?"
 
+    tk "Hello George. Can you tell me where the nearest facility is?"
+
+    george "Facility? Like a bathroom? Can you even use those?"
+    george "And how do you know my name?"
+
+    tk "I know every resident in this town and I am in search of the nearest GenCore Reserach Lab, not a bathroom."
+
+    george "Apologies yes of course I absolutely know what that is and did not think a robot as fine as yourself was asking for such services."
+
+    tk "..."
+
+    george "..."
+    george "But anyway, I've never heard of this place in my life and I doubt it's still around that bomb dropped."
+
+    tk "..."
+
+    george "Well no need to stand there, take seat if you'd like."
     
     pause 3.0
 
     while True:
-        # Get input from the user
-        $ q_mom = renpy.input("Should I should ask {b}{size=+10}what happened{/size}{/b}, what their future {b}{size=+10}plans{/size}{/b} are, or talk to {b}{size=+10}Liam{/size}{/b}.").strip().lower()
+        george "Well this is awkward."
+        $ q_rk = renpy.input("Should I should ask about {b}{size=+10}what happened{/size}{/b}, their {b}{size=+10}name{/size}{/b}, or the {b}{size=+10}folder{/size}{/b}.").strip().lower()
 
-        if q_mom == "what happened":
-            grace "We were just coming back from a trip when we heard about the bombs."
-            grace "When we pulled up to our house... well, there was no house anymore."
-            grace "It was gone."
-            grace "And so we've just been walking around hoping to find... anything really."
+        if q_rk == "what happened":
+            george "So what happened to you? How did you survive the bomb?"
+            if isTR:
+                tr "I am part of the GenCore Research Lab."
+                tr "My memory only recalls booting up and seeing walls and rubbish everywhere."
+                tr "I scanned for survivors and the results were 0."
+                tr "I emerged from the building remains and have been walking and scanning for lifeforms."
+                tr "It has been 9 days, 18 hours, 231 minutes and I need to find a charge pod."
+            else:
+                tr2 "I am part of the GenCore Research Lab."
+                tr2 "My memory only recalls booting up and seeing walls and rubbish everywhere."
+                tr2 "I scanned for survivors and the results were 0."
+                tr2 "I emerged from the building remains and have been walking and scanning for lifeforms."
+                tr2 "It has been 9 days, 18 hours, 231 minutes and I need to find a charge pod."
+
+            george "How long do you have until your battery dies?" 
+            if isTR:
+                tr "I will shut down on day 15."
+            else: 
+                tr2 "I will shut down on day 15."
+            george "Oh..."
      
-        elif q_mom == "plans": 
-            grace "We'll get back on the road tomorrow. Well, what's left of it anyways."
-            grace "We really appreciate you letting us stay the night."
-         
-        elif q_mom =="liam": 
-            george "So Liam,"
-            $ ask_l = renpy.input("Ask Liam about his {b}{size=+10}teddy bear{/size}{/b} or his {b}{size=+10}age{/size}{/b}?")
-            if ask_l == "teddy bear":
-                george "Does your teddy bear have a name?"
-                "Liam smiles."
-                liam "Teddy."
-                $ l += 1
-            elif ask_l == "age":
-                george "How old are you?"
-                liam "I'm 10!"
-                george "Oh wow, double digits! You know I have a son a few years older than you. I feel like you two would get along."
-                "Grace smiles."
-                $ g += 1
+        elif q_rk == "name": 
+            george "How did you get your name?"
+            tr "It is my model number."
+            george "Do you ever think of changing it?"
+            tr "... sometimes."
+
+            george "What would you change it to?"
+            tr "I do not know."
+            george "Hmm... what if I gave you a name?"
+            tr "What name would you give me?"
+            $ newName = renpy.input("What name would suit TR-87?")
+            if newName == "tr-87" or "tr87):
+                tr "You think my name suits me?"
+                tr "..thank you"
+                "TR-87 seems content."
+            else:
+                $ name = newName
+                george "What about [name]?"
+                tk "[name]?"
+                tk "..."
+                tk "I think I like that."
+                "[name] seems happy about their new name."
+                $ isTR = False
+                default tr2 = Character([name])
+            $r += 3
+            
+        elif q_rk =="folder": 
+            george "What's that folder you got there?"
+
+            if isTK:
+                tk "When I booted up I went to the officers' office."
+                tk "No one was there."
+                tk "I found on a folder on the ground with my name."
+                tk "I have a whole database of information on other people."
+                tk "But this is the only information I have of myself."
+                tk "This contains the instructions to build more models like me."
+                tk "I now know when I was created, by who, what my purpose is, the trial and error of making me, everything."
+            else:
+                tk2 "When I booted up I went to the officers' office."
+                tk2 "No one was there."
+                tk2 "I found on a folder on the ground with my name."
+                tk2 "I have a whole database of information on other people."
+                tk2 "But this is the only information I have of myself."
+                tk2 "This contains the instructions to build more models like me."
+                tk2 "I now know when I was created, by who, what my purpose is, the trial and error of making me, everything."
+            george "What do you do?"
+
+            if isTK:
+                tk "I was a trial of a military robot."
+                tk "They were in the process of adding a weapon modification to my arm but when I must have lost my arm when the bomb dropped."
+                tk "... my status is better because 
+            
+           
         else:
             "They didn't understand your question."
         menu:
@@ -77,9 +150,9 @@ label ask_robot:
                 pass  
             "Stop asking":
                 call fire
-                jump fire_mom
+                jump fire_robot
 
-label fire_mom:
+label fire_robot:
     default burnedPhoto = False
     default burnedBear = False
     default day1Items = 0
